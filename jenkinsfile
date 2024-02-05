@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    tools{
+        maven 'jenkins_maven'
+    }
+
+    stages {
+        stage('checkout the code') {
+            steps {
+                git url: 'https://github.com/ahmedtawfeek/java_app.git', branch: 'master'
+            }
+        }
+        stage('Build The Code') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Sonarqube Test') {
+            steps {
+              withSonarQubeEnv(installationName: 'sq1', credentialsId: 'sonarqube') {
+                sh 'mvn sonar:sonar'
+				}
+			}
+		}
+		stage('Deploy') {
+            steps {
+                sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
+            }
+        }
+	
+	}
+	}
