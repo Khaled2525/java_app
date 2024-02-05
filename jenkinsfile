@@ -22,7 +22,14 @@ pipeline {
 				}
 			}
 		}
-		stage('Deploy') {
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 20, unit: 'SECONDS') {
+                waitForQualityGate abortPipeline: true
+        }
+     }
+     }
+        stage('Deploy') {
             steps {
                 sh 'java -jar target/my-app-1.0-SNAPSHOT.jar'
             }
