@@ -11,5 +11,3 @@ JUnit XML report.
 
 The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
 
-
-1234
